@@ -14,7 +14,7 @@ int main() {
 
     printf("\n%s\n", "################ Parcours en profondeur ################");
     parcoursProfondeur(&graph);
-    printf("Nombre de composants : %d\n", graph.con_info.nbComposantes);
+    printf("Nombre de composants : %d\n", graph.componentInfo.nbComponents);
 
     for (i = 0; i < graph.nbSummit; i++) {
         printf("%d | ", i);
@@ -23,16 +23,16 @@ int main() {
     printf("\n");
 
     for (i = 0; i < graph.nbSummit; i++) {
-        printf("%d | ", graph.con_info.composantes_connexes[i]);
+        printf("%d | ", graph.componentInfo.relatedComponents[i]);
     }
 
     printf("\n");
 
-    free(graph.con_info.composantes_connexes);
+    free(graph.componentInfo.relatedComponents);
 
     printf("\n%s\n", "################ Parcours en largeur ################");
     ParcoursLargeur(&graph);
-    printf("\nNombre de composants : %d\n", graph.con_info.nbComposantes);
+    printf("\nNombre de composants : %d\n", graph.componentInfo.nbComponents);
 
     for (i = 0; i < graph.nbSummit; i++) {
         printf("%d | ", i);
@@ -41,12 +41,12 @@ int main() {
     printf("\n");
 
     for (i = 0; i < graph.nbSummit; i++) {
-        printf("%d | ", graph.con_info.composantes_connexes[i]);
+        printf("%d | ", graph.componentInfo.relatedComponents[i]);
     }
 
     printf("\n");
 
-    free(graph.con_info.composantes_connexes);
+    free(graph.componentInfo.relatedComponents);
 
     return 0;
 }
@@ -121,7 +121,7 @@ int visiteProfondeur(GRAPH* graph, int nbSummit) {
 
     graph->nodeStatus[nbSummit] = BLACK;
     nodeNumber++;
-    graph->con_info.composantes_connexes[nbSummit] = graph->con_info.nbComposantes;
+    graph->componentInfo.relatedComponents[nbSummit] = graph->componentInfo.nbComponents;
     printf("Noeud suffixe : %d\n", nbSummit);
 
     return nodeNumber;
@@ -134,8 +134,8 @@ bool parcoursProfondeur(GRAPH* graph) {
         return false;
     }
 
-    graph->con_info.nbComposantes = 0;
-    graph->con_info.composantes_connexes = (int*) calloc(graph->nbSummit, sizeof (int));
+    graph->componentInfo.nbComponents = 0;
+    graph->componentInfo.relatedComponents = (int*) calloc(graph->nbSummit, sizeof (int));
     graph->nodeStatus = (char*) calloc(graph->nbSummit, sizeof (char));
 
     if (graph->nodeStatus == NULL) {
@@ -144,7 +144,7 @@ bool parcoursProfondeur(GRAPH* graph) {
 
     for (x = 0; x < graph->nbSummit; x++) {
         if (graph->nodeStatus[x] == WHITE) {
-            graph->con_info.nbComposantes++;
+            graph->componentInfo.nbComponents++;
             nodeNumber += visiteProfondeur(graph, x);
         }
     }
@@ -153,7 +153,7 @@ bool parcoursProfondeur(GRAPH* graph) {
     free(graph->nodeStatus);
     graph->nodeStatus = NULL;
 
-    return graph->con_info.nbComposantes == 1;
+    return graph->componentInfo.nbComponents == 1;
 }
 
 int visiteLargeur(GRAPH* graph, int nbSummit) {
@@ -191,7 +191,7 @@ int visiteLargeur(GRAPH* graph, int nbSummit) {
         queue = get(queue);
         graph->nodeStatus[nbSommet] = BLACK;
         printf("Noeud visité : %d\n", nbSommet);
-        graph->con_info.composantes_connexes[nbSommet] = graph->con_info.nbComposantes;
+        graph->componentInfo.relatedComponents[nbSommet] = graph->componentInfo.nbComponents;
         nodeNumber++;
     }
 
@@ -205,8 +205,8 @@ bool ParcoursLargeur(GRAPH* graph) {
         return false;
     }
 
-    graph->con_info.nbComposantes = 0;
-    graph->con_info.composantes_connexes = (int*) calloc(graph->nbSummit, sizeof (int));
+    graph->componentInfo.nbComponents = 0;
+    graph->componentInfo.relatedComponents = (int*) calloc(graph->nbSummit, sizeof (int));
     graph->nodeStatus = (char*) calloc(graph->nbSummit, sizeof (char));
 
     if (graph->nodeStatus == NULL) {
@@ -215,7 +215,7 @@ bool ParcoursLargeur(GRAPH* graph) {
 
     for (x = 0; x < graph->nbSummit; x++) {
         if (graph->nodeStatus[x] == WHITE) {
-            graph->con_info.nbComposantes++;
+            graph->componentInfo.nbComponents++;
             nodeNumber += visiteLargeur(graph, x);
         }
     }
@@ -224,5 +224,5 @@ bool ParcoursLargeur(GRAPH* graph) {
     free(graph->nodeStatus);
     graph->nodeStatus = NULL;
 
-    return graph->con_info.nbComposantes == 1;
+    return graph->componentInfo.nbComponents == 1;
 }

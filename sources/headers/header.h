@@ -27,17 +27,17 @@ typedef struct QUEUE {
     CELL* tail;
 } QUEUE;
 
-typedef struct COMPO_CONNEXES_STR_T {
-    int* composantes_connexes;
-    int nbComposantes;
-} COMPO_CONNEXES_STR_T;
+typedef struct REALATED_COMPONENTS {
+    int* relatedComponents;
+    int nbComponents;
+} REALATED_COMPONENTS;
 
 typedef struct GRAPH {
     int nbSummit;
     int nbArc;
     float** matrix; /* matrice d'adjacence */
     char* nodeStatus;
-    COMPO_CONNEXES_STR_T con_info;
+    REALATED_COMPONENTS componentInfo;
 } GRAPH;
 
 typedef struct {
