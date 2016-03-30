@@ -14,4 +14,4 @@ queue : sources/queue.c
 	gcc -c sources/queue.c -std=c99 -Wall
 
 zip : 
-	zip -r TP4_Jeremie_Leclerc_Pierrick_Hue.zip sources/ graphe_alea.txt Makefile output trace.txt
+	zip -r TP4_Jeremie_Leclerc_Pierrick_Hue.zip docs/TP4_Parcours_De_Graphe_Leclerc_Hue.pdf sources/ graphe_alea.txt Makefile output trace.txt
